@@ -12,8 +12,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/board", method=RequestMethod.POST)
-	public String create(String id, String article) {
-		System.out.println("id : " + id + " article : " + article);
+	public String create(String title, String contents) {
+		System.out.println("title : " + title + " contents : " + contents);
 		return "redirect:/";
 	}
 }
