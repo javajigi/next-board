@@ -9,9 +9,10 @@
 <body>
 <h1> 글쓰기 화면 임다</h1>
 <div>
-	<form action="/board" method="post">
+	<form action="/board" method="post" enctype="multipart/form-data">
 		 제목 : <input type="text" name="title" size=40> <br />
 		<textarea name="contents" rows="10" cols="50">글자를 미리 넣어보자</textarea><br />
+		<input type="file" name="file">
 		<input type="submit" value="보내기">
 	</form>
 </div>
