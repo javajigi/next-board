@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1> 글쓰기 화면 임다</h1>
+<h1> 글쓰기 화면 입니다</h1>
 <div>
 	<form action="/board" method="post" enctype="multipart/form-data">
 		 제목 : <input type="text" name="title" size=40> <br />
