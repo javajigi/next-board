@@ -27,8 +27,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/board", method=RequestMethod.POST)
-	public String create(Board board, MultipartFile imageName) {
-		String fileName = FileUploader.upload(imageName);
+	public String create(Board board, MultipartFile filename) {
+		String fileName = FileUploader.upload(filename);
 		board.setFileName(fileName);
 		Board savedBoard = boardRepository.save(board);
 		return "redirect:/board/" + savedBoard.getId();
