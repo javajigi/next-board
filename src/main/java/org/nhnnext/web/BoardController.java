@@ -15,6 +15,12 @@ public class BoardController {
 	@Autowired
 	private BoardRepository boardRepository;
 	
+	@RequestMapping(value={"/", "/board"})
+	public String list(Model model) {
+		model.addAttribute("boards", boardRepository.findAll());
+		return "list";
+	}
+	
 	@RequestMapping("/board/form")
 	public String form() {
 		return "form";
