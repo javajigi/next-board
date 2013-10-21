@@ -57,7 +57,7 @@ article  >h1 {
 	font-weight : 300;
 	letter-spacing : 0.1em;
 	margin : 10px 0px;
-	color : rgb(94, 87, 87);
+	color : rgb(185, 185, 185);
 	margin-left : 1%;
 }
 
@@ -70,7 +70,7 @@ article div#imgWrap {
 }
 
 div#imgWrap > img {
-	1width : 100%;
+	max-width : 100%;
 	border-right : 1px solid rgb(226, 219, 219);
 	border-bottom : 1px solid rgb(226, 219, 219);
 }
@@ -181,7 +181,7 @@ div#textareaWrap > textarea {
 			<div id="commentWrite">
 				<form action="/board/${board.id}/comments" method="post">
 					<div id="textareaWrap">
-						<textarea name="contents" rows="3" cols="60" placeholder="여기에 댓글을 쓰시면 되요..."></textarea>
+						<textarea name="contents" rows="1" cols="60" placeholder="여기에 댓글을 쓰시면 되요..."></textarea>
 					</div>
 					<input type="submit" value="댓글쓰기"/>
 				</form>
