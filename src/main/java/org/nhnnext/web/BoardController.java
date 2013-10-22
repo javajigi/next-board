@@ -1,5 +1,9 @@
 package org.nhnnext.web;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.nhnnext.web.Board;
 import org.nhnnext.repository.BoardRepository;
 import org.nhnnext.support.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +21,11 @@ public class BoardController {
 	
 	@RequestMapping(value={"/", "/board"})
 	public String list(Model model) {
-		model.addAttribute("boards", boardRepository.findAll());
+		//model.addAttribute("boards", boardRepository.findAll());
+    	List<Board> savedBoard = (List<Board>) boardRepository.findAll();
+    	// 역순으로 보여주기 위해서. 
+    	Collections.reverse(savedBoard);
+    	model.addAttribute("boards", savedBoard);
 		return "list";
 	}
 	
@@ -31,7 +39,8 @@ public class BoardController {
 		String fileName = FileUploader.upload(filename);
 		board.setFileName(fileName);
 		Board savedBoard = boardRepository.save(board);
-		return "redirect:/board/" + savedBoard.getId();
+		//return "redirect:/board/" + savedBoard.getId();
+		return "redirect:/board/";
 	}
 	
 	@RequestMapping("/board/{id}")
