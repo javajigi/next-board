@@ -21,7 +21,8 @@ public class CommentController {
 		Board board = boardRepository.findOne(id);
 		Comment comment = new Comment(contents, board);
 		commentRepository.save(comment);
-		return "redirect:/board/" + id;
+		//return "redirect:/board/" + id;
+		return "redirect:/board/";
 	}
 }
 
