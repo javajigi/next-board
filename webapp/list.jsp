@@ -122,9 +122,15 @@ div.commentWrite form {
 	border-bottom : 1px solid rgb(218, 218, 218);
 	padding-bottom: 10px;
 }
-.commentList > .commentNum {
+.commentTitle > .commentNum {
 	font-size : 0.8em;
-	border-bottom : 1px solid rgb(218, 218, 218);
+
+}
+
+.commentBody {
+	display  :none;
+	1height :0px;
+	1transition:  all 1s;
 }
 
 /* write post */
@@ -174,6 +180,38 @@ div.textareaWrap > textarea {
 	font-size : 0.8em;
 }
 
+.commentTitle {
+	overflow: auto;
+	border-bottom : 1px solid rgb(218, 218, 218);
+}
+
+.commentTitle > .commentNum {
+	float: left;
+}
+
+.commentTitle > .commControl {
+	float : right;
+	font-size : 0.8em;
+}
+
+.commControl > a:hover,a:active,a:focus{
+	text-decoration:none
+}
+
+#imgviewer {
+	1width: 704px;
+	margin: 0 auto;
+	border: 6px solid rgb(19, 18, 18);
+	position: absolute;
+	1left: 231px;
+	z-index: 1000;
+	max-width : 1200px;
+}
+
+#imgviewer > img {
+	max-width: 100%;
+}
+
 </style>
 </head>
 
@@ -218,31 +256,45 @@ div.textareaWrap > textarea {
 					<div> <span>댓글이 없습니다 ㅡ.ㅡ;; </span></div>
 				</c:if>
 				
-				<div class="commentList">
-					<div class="commentNum"> <span>2</span>개의 댓글</div>
-					<c:forEach items="${board.comments}" var="comment">
-						<p>
-							<span>${comment.contents}</span>
-						</p>
-					</c:forEach>
+				<div class="commentTitle">
+					<div class="commentNum">
+						 <span>2</span>개의 댓글
+					</div>
+					<div class="commControl">
+						<a href="#">댓글 보여줘</a>
+					</div>
 				</div>
-				<div class="commentWrite">
-					<form action="/board/${board.id}/comments" method="post">
-						<div class="textareaWrap">
-							<textarea name="contents" rows="1" cols="60" placeholder="여기에 댓글을 쓰시면 되요..."></textarea>
-						</div>
-						<input type="submit" value="댓글쓰기"/>
-					</form>
+				<div class="commentBody">
+					<div class="commentList">
+						<c:forEach items="${board.comments}" var="comment">
+							<p>
+								<span>${comment.contents}</span>
+							</p>
+						</c:forEach>
+					</div>
+					<div class="commentWrite">
+						<form action="/board/${board.id}/comments" method="post">
+							<div class="textareaWrap">
+								<textarea name="contents" rows="1" cols="60" placeholder="여기에 댓글을 쓰시면 되요..."></textarea>
+							</div>
+							<input type="submit" value="댓글쓰기"/>
+						</form>
+					</div>
 				</div>
 			</div>
+
 		</section>
 	</c:forEach>
  </div>
  
+ <div id="imgviewer">
+	<img src="http://localhost:8080/images/dom_tree.gif" />
+</div>
  <script>
 function initPage () {
 	console.log('init');
 	countComments();
+	registerEvents();
 }
 
 function countComments () {
@@ -250,9 +302,72 @@ function countComments () {
 	for(var i =0 ; i < commnetList.length ; i++) {
 		var currentNode = commnetList[i];
 		var nPListCount = currentNode.querySelectorAll('p').length;
-		currentNode.querySelector('span').innerText = nPListCount;
+		currentNode.parentNode.parentNode.querySelector(".commentNum > span").innerText = nPListCount;
 	}
 	//document.querySelector('#commentNum span').innerText = nCommentsCount;
+}
+
+function registerEvents() {
+	commentToggleHandler("commControl" , 'click' ,toggleComment); 
+	imageViewerHandler();
+}
+
+function commentToggleHandler(className,eventType, fn) {
+	//var ele = document.querySelector(wrapId);
+	var ele = document.body;
+    ele.addEventListener(eventType , function(e) {
+    	e.preventDefault();
+        if (e.target.parentNode.className === className) {
+        	fn(e.target.parentNode.parentNode.nextElementSibling);
+        }
+    } , false);
+}
+
+/*
+function commentToggleHandler() {
+	var ele = document.querySelector("#wrap");
+    ele.addEventListener('click' , function(e) {
+    	e.preventDefault();
+        if (e.target.parentNode.className === "commControl") {
+               toggleComment(e.target.parentNode.parentNode.nextElementSibling);
+        }
+    } , false);
+}
+*/
+
+function imageViewerHandler() {
+	var ele = document.querySelectorAll(".imgWrap > img");
+	for(var i = 0 ; i  < ele.length ; i++) {
+		ele[i].addEventListener('click' ,showImageViewer , false);
+	}
+}
+
+function toggleComment(curEle) {
+	// element의 display속성을 가져온다.
+	var style = window.getComputedStyle(curEle, null);
+	var displayValue = style.display;
+	
+	//접혀있음 펼치고, 펼쳐있으면 접는다.
+	if (displayValue === "none") { curEle.style.display = "block";}
+	else {curEle.style.display = "none";}
+	
+	//curEle.style.height = "300px"; //with "overflow hidden" , "transition"
+}
+
+function showImageViewer(e) {
+	var eleViewDiv = document.querySelector("#imgviewer");
+	var eleViewImage  = document.querySelector("#imgviewer > img");
+	
+	var clientWidth = document.body.clientWidth;
+	var ele = e.target;
+	var imgWidth  = ele.naturalWidth;  //원래 이미지.
+	
+	if(clientWidth <= imgWidth) imgWidth = 1200;   //화면보다 큰 이미지라면 최대값 지정.(이미지 뷰어의 max width) 
+	leftMargin = (clientWidth-imgWidth) / 2; //와우 간격을 동일하게 맞추는 계산. 
+	
+	eleViewDiv.style.marginLeft = leftMargin +"px";
+	eleViewDiv.style.top = document.body.scrollTop +100 + "px";    //100은 상단에서 어느정도 떨어뜨리기 위해서. 
+	eleViewImage.src = ele.src;
 }
 
 window.onload = initPage;
