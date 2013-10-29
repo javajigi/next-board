@@ -212,6 +212,14 @@ div.textareaWrap > textarea {
 	max-width: 100%;
 }
 
+/* dimmed layer setting */
+#dimmedLayer {
+ 	border : 1px solid red;
+ 	position : absolute;
+ 	top:0px;
+ 	left:0px;
+}
+
 </style>
 </head>
 
@@ -285,14 +293,15 @@ div.textareaWrap > textarea {
 
 		</section>
 	</c:forEach>
+	<div id="dimmedLayer">
+	</div>
  </div>
  
  <div id="imgviewer">
-	<img src="http://localhost:8080/images/dom_tree.gif" />
+	<img src="" />
 </div>
  <script>
 function initPage () {
-	console.log('init');
 	countComments();
 	registerEvents();
 }
@@ -306,41 +315,41 @@ function countComments () {
 	}
 	//document.querySelector('#commentNum span').innerText = nCommentsCount;
 }
-
+	
 function registerEvents() {
-	commentToggleHandler("commControl" , 'click' ,toggleComment); 
-	imageViewerHandler();
+	// toggle comment 방법1.
+	//commentToggleHandler("commControl" , 'click' ,toggleComment);
+    
+	// toggle comment 방법2
+	 var eleList = document.getElementsByClassName('commControl');
+	 for (var i=0 ; i < eleList.length ; i++) {
+	  		eleList[i].addEventListener('click',toggleCommentsOrigin, false);
+	  }
+	 
+	 //show image
+	 imageViewerHandler();
+}
+
+function toggleCommentsOrigin(e) {
+	e.preventDefault();
+	var curEle = e.target.parentNode.parentNode.nextElementSibling;
+	var curDisplayValue = window.getComputedStyle(curEle , null).getPropertyValue("display");
+	
+	if(curDisplayValue == "none") curEle.style.display = "block";
+	else if(curDisplayValue == "block") curEle.style.display = "none";
 }
 
 function commentToggleHandler(className,eventType, fn) {
 	//var ele = document.querySelector(wrapId);
 	var ele = document.body;
     ele.addEventListener(eventType , function(e) {
-    	e.preventDefault();
         if (e.target.parentNode.className === className) {
+        	e.preventDefault();
         	fn(e.target.parentNode.parentNode.nextElementSibling);
         }
     } , false);
 }
 
-/*
-function commentToggleHandler() {
-	var ele = document.querySelector("#wrap");
-    ele.addEventListener('click' , function(e) {
-    	e.preventDefault();
-        if (e.target.parentNode.className === "commControl") {
-               toggleComment(e.target.parentNode.parentNode.nextElementSibling);
-        }
-    } , false);
-}
-*/
-
-function imageViewerHandler() {
-	var ele = document.querySelectorAll(".imgWrap > img");
-	for(var i = 0 ; i  < ele.length ; i++) {
-		ele[i].addEventListener('click' ,showImageViewer , false);
-	}
-}
 
 function toggleComment(curEle) {
 	// element의 display속성을 가져온다.
@@ -354,11 +363,59 @@ function toggleComment(curEle) {
 	//curEle.style.height = "300px"; //with "overflow hidden" , "transition"
 }
 
+function imageViewerHandler() {
+	var ele = document.querySelectorAll(".imgWrap > img");
+	for(var i = 0 ; i  < ele.length ; i++) {
+		ele[i].addEventListener('click' ,showImageViewer , false);
+	}
+}
+
 function showImageViewer(e) {
+	//image viewer element
 	var eleViewDiv = document.querySelector("#imgviewer");
 	var eleViewImage  = document.querySelector("#imgviewer > img");
 	
+	//dimmed 
 	var clientWidth = document.body.clientWidth;
+	var clientHeight = document.body.clientHeight;
+	
+	var dl = document.getElementById('dimmedLayer');
+	
+	//show Dimmed layer
+	setCss(dl, {
+		width 					: clientWidth+"px",
+		height 					: clientHeight+"px",
+		opacity 					: 0.8,
+		backgroundColor 	: "darkgray",
+		zIndex 					: 100,
+		display					: "block"
+	});
+	
+	//remove Dimmed layer registration
+	dl.addEventListener('click' ,function(e){
+		setCss(dl, {
+			width 					: 0+"px",
+			height 					: 0+"px",
+			opacity 					: 0,
+			zIndex 					: 1,
+			display					: "none"
+		});
+		var style = window.getComputedStyle(eleViewDiv, null);
+		var displayValue = style.display;
+		
+		//toggle image viewer display
+		if(displayValue == "block")  {
+			setCss(eleViewDiv, {display : "none"});
+			//prevent Scroll Event
+			window.removeEventListener('mousewheel', wheelHandler , false);
+		}
+	} ,false);
+	
+	//image viewer
+	var eleViewDiv = document.querySelector("#imgviewer");
+	var eleViewImage  = document.querySelector("#imgviewer > img");
+	
+	//var clientWidth = document.body.clientWidth;
 	var ele = e.target;
 	var imgWidth  = ele.naturalWidth;  //원래 이미지.
 	
@@ -368,7 +425,22 @@ function showImageViewer(e) {
 	eleViewDiv.style.marginLeft = leftMargin +"px";
 	eleViewDiv.style.top = document.body.scrollTop +100 + "px";    //100은 상단에서 어느정도 떨어뜨리기 위해서. 
 	eleViewImage.src = ele.src;
+	setCss(eleViewDiv, {display : "block"});
+	
+	//prevent Scroll Event
+	window.addEventListener('mousewheel', wheelHandler, false);
 }
+
+function setCss(element,o) {
+	for (v in o) {
+		element.style[v] = o[v];
+	}
+}
+
+function wheelHandler (e) {
+		e.preventDefault();
+}
+
 
 window.onload = initPage;
 
