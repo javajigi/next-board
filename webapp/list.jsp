@@ -255,6 +255,17 @@ function countComments () {
 	//document.querySelector('#commentNum span').innerText = nCommentsCount;
 }
 
+function createComments() {
+	var data = new FormData();
+	data.append( 'contents', '댓글 짱 잘 들어간다.');
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("POST", "/board/11/comments.json");
+	xmlhttp.onreadystatechange = function ( response ) {
+		console.log(response.currentTarget.responseText);
+	};
+	xmlhttp.send(data);	
+}
+
 window.onload = initPage;
 
 </script>
