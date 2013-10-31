@@ -45,23 +45,8 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
-	<servlet>
-		<servlet-name>H2Console</servlet-name>
-		<servlet-class>org.h2.server.web.WebServlet</servlet-class>
-		<init-param>
-			<param-name>-webAllowOthers</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
-		
 	<servlet-mapping>
 		<servlet-name>next</servlet-name>
 		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>H2Console</servlet-name>
-		<url-pattern>/admin/h2/*</url-pattern>
 	</servlet-mapping>
 </web-app>

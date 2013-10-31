@@ -7,10 +7,8 @@
 		</encoder>
 	</appender>
 	
-	<!-- SLIPP Logger -->
 	<logger name="org.nhnnext" level="DEBUG" />
 
-	<!-- Library / Framework Logger -->
 	<logger name="org.hibernate" level="WARN" />
 	<logger name="org.hibernate.SQL" level="DEBUG" />
 	<logger name="org.hibernate.type" level="WARN" />
@@ -20,7 +18,6 @@
 	<logger name="org.springframework.web.bind.annotation.support.HandlerMethodInvoker" level="INFO" />
 	<logger name="org.springframework.web.servlet.DispatcherServlet" level="INFO" />
 	
-	<!-- ROOT Logger -->
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 	</root>
