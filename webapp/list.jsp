@@ -7,174 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-
-<style>
-/* System Name, CSS Version_Creater_Date */
-/* Common */ 
-body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textare a,button,select{margin:0;padding:0}
-body,input,textarea,select,button,table{font-family:'돋움',Dotum,AppleGothic,sans- serif;font-size:1em}
-img,fieldset{border:0}
-ul,ol{list-style:none}
-em,address{font-style:normal} a{text-decoration:none} a:hover,a:active,a:focus{text-decoration:underline}
-
-div#wrap {
-	width : 800px;
-	1border : 1px solid red;
-	margin-right : auto;
-	margin-left : auto;
-	margin-top  :20px;
-	font-size : 0.9em;
-	color : rgb(94, 87, 87);
-}
-
-nav {
-	text-align: right;
-	padding-right : 20px;
-}
-
-nav ul li {
-	display : inline-block;
-	padding-right : 10px;
-	letter-spacing : 0.2em;
-	font-size : 1.2em;
-}
-
-section {
-	margin-top : 40px;
-	1border : 1px solid red;
-	width  : 70%;
-	margin-right : auto;
-	margin-left : auto;
-	padding : 10px;
-}
-
-article {
-	margin-top : 30px;
-	border : 1px solid  rgb(226, 219, 219);
-}
-
-article  >h1 {
-	font-family : Raleway,Helvetica Neue,Helvetica,Arial,sans-serif;
-	font-size : 0.8em;
-	font-weight : 300;
-	letter-spacing : 0.1em;
-	margin : 10px 0px;
-	color : rgb(185, 185, 185);
-	margin-left : 1%;
-}
-
-article div.imgWrap {
-	width : 98%;
-	border : 1px solid  rgb(226, 219, 219);
-	margin-bottom : 10px;
-	margin-right : auto;
-	margin-left : auto;
-}
-
-div.imgWrap > img {
-	max-width : 100%;
-	border-right : 1px solid rgb(226, 219, 219);
-	border-bottom : 1px solid rgb(226, 219, 219);
-}
-
-div.contents {
-	1border : 1px solid  rgb(226, 219, 219);
-}
-
-div.contents > p {
-	word-wrap:break-word;
-	padding : 1%;
-	line-height :1.4em;
-}
-
-div.commentWrap {
-	margin-top : 20px;
-	1border : 1px solid red;
-}
-
-div.commentWrite {
-	margin : 5px 0px;
-}
-
-div.commentWrite form {
-	text-align : right;
-}
-
-.commentWrite input[type=submit] , input[type=reset]  {
-	border : 0px;
-	padding : 5px;
-	background-color : gray;
-	color : white;
-	border-radius : 3px;
-	font-size : 0.8em;
-}
-
-.commentList p {
-	margin-bottom: 10px;
-	border-bottom: 1px solid rgb(247, 247, 247)
-}
-
-.commentList p:first-of-type {
-	padding-top: 10px;
-}
-
-.commentList p:last-of-type {
-	border-bottom : 1px solid rgb(218, 218, 218);
-	padding-bottom: 10px;
-}
-.commentList > .commentNum {
-	font-size : 0.8em;
-	border-bottom : 1px solid rgb(218, 218, 218);
-}
-
-/* write post */
-section#writePost {
-	1border : 1px solid red;
-}
-
-#writePost > div#formArea {
-	margin-top : 30px;
-	border : 1px solid  rgb(226, 219, 219);
-	padding : 1%;
-}
-
-div#formArea {
- 	1padding-left : 100px;
- 	1padding-top : 100px;
-}
-
-div.textareaWrap {
-	width  :98%;
-	margin : 20px 0px;
-	border : 1px solid  rgb(226, 219, 219);
-	text-align:center;
-}
-
-div.textareaWrap > textarea {
-	width  :96%;
-	padding : 8px;
-	resize : none;
-	border : 0px;
-	outline : 0;
-	font-size : 0.8em;
-}
-
-
-#formArea input[type=text] {
-	height : 30px;
-}
-
-#formArea input[type=submit] , input[type=reset]  {
-	margin-top : 20px;
-	border : 0px;
-	padding : 5px;
-	background-color : gray;
-	color : white;
-	border-radius : 3px;
-	font-size : 0.8em;
-}
-
-</style>
+<link rel="stylesheet" media="screen" type="text/css" href="/stylesheets/listMain.css" />
 </head>
 
 <body>
@@ -218,31 +51,48 @@ div.textareaWrap > textarea {
 					<div> <span>댓글이 없습니다 ㅡ.ㅡ;; </span></div>
 				</c:if>
 				
-				<div class="commentList">
-					<div class="commentNum"> <span>2</span>개의 댓글</div>
-					<c:forEach items="${board.comments}" var="comment">
-						<p>
-							<span>${comment.contents}</span>
-						</p>
-					</c:forEach>
+				<div class="commentTitle">
+					<div class="commentNum">
+						 <span>2</span>개의 댓글
+					</div>
+					<div class="commControl">
+						<a href="#">댓글 보여줘</a>
+					</div>
 				</div>
-				<div class="commentWrite">
-					<form action="/board/${board.id}/comments" method="post">
-						<div class="textareaWrap">
-							<textarea name="contents" rows="1" cols="60" placeholder="여기에 댓글을 쓰시면 되요..."></textarea>
-						</div>
-						<input type="submit" value="댓글쓰기"/>
-					</form>
+				<div class="commentBody">
+					<div class="commentList">
+						<c:forEach items="${board.comments}" var="comment">
+							<p>
+								<span>${comment.contents}</span>
+							</p>
+						</c:forEach>
+					</div>
+					<div class="commentWrite">
+						<form action="/board/${board.id}/comments" name="commentWrite" method="post">
+							<div class="textareaWrap">
+								<textarea name="contents" rows="1" cols="60" placeholder="여기에 댓글을 쓰시면 되요..."></textarea>
+							</div>
+							<input type="submit" value="댓글쓰기"/>
+						</form>
+					</div>
 				</div>
 			</div>
+
 		</section>
 	</c:forEach>
+	<div id="dimmedLayer">
+	</div>
  </div>
  
+ <div id="imgviewer">
+	<img src="" />
+</div>
  <script>
 function initPage () {
-	console.log('init');
 	countComments();
+	registerEvents();
+	 imageViewerHandler();
+	
 }
 
 function countComments () {
@@ -250,10 +100,146 @@ function countComments () {
 	for(var i =0 ; i < commnetList.length ; i++) {
 		var currentNode = commnetList[i];
 		var nPListCount = currentNode.querySelectorAll('p').length;
-		currentNode.querySelector('span').innerText = nPListCount;
+		currentNode.parentNode.parentNode.querySelector(".commentNum > span").innerText = nPListCount;
 	}
 	//document.querySelector('#commentNum span').innerText = nCommentsCount;
 }
+	
+function registerEvents() {
+	// toggle comment 방법1.
+	//commentToggleHandler("commControl" , 'click' ,toggleComment);
+    
+	// toggle comment 방법2
+	 var eleList = document.getElementsByClassName('commControl');
+	 for (var i=0 ; i < eleList.length ; i++) {
+	  		eleList[i].addEventListener('click',toggleCommentsOrigin, false);
+	  }
+	 
+	 // comment sumbit click
+	 var formList = document.querySelectorAll('.commentWrite input[type=submit]');
+	 //console.log(formList);
+	 for ( var j=0 ; j < formList.length ; j++) {
+		 console.log(formList[j]);
+		 formList[j].addEventListener('click',writeComments, false);
+	 }
+}
+
+function writeComments(e) {
+	e.preventDefault();
+	console.log("clicked");
+}
+
+function toggleCommentsOrigin(e) {
+	e.preventDefault();
+	var curEle = e.target.parentNode.parentNode.nextElementSibling;
+	var curDisplayValue = window.getComputedStyle(curEle , null).getPropertyValue("display");
+	
+	if(curDisplayValue == "none") curEle.style.display = "block";
+	else if(curDisplayValue == "block") curEle.style.display = "none";
+}
+
+function commentToggleHandler(className,eventType, fn) {
+	//var ele = document.querySelector(wrapId);
+	var ele = document.body;
+    ele.addEventListener(eventType , function(e) {
+        if (e.target.parentNode.className === className) {
+        	e.preventDefault();
+        	fn(e.target.parentNode.parentNode.nextElementSibling);
+        }
+    } , false);
+}
+
+
+function toggleComment(curEle) {
+	// element의 display속성을 가져온다.
+	var style = window.getComputedStyle(curEle, null);
+	var displayValue = style.display;
+	
+	//접혀있음 펼치고, 펼쳐있으면 접는다.
+	if (displayValue === "none") { curEle.style.display = "block";}
+	else {curEle.style.display = "none";}
+	
+	//curEle.style.height = "300px"; //with "overflow hidden" , "transition"
+}
+
+function imageViewerHandler() {
+	var ele = document.querySelectorAll(".imgWrap > img");
+	for(var i = 0 ; i  < ele.length ; i++) {
+		ele[i].addEventListener('click' ,showImageViewer , false);
+	}
+}
+
+function showImageViewer(e) {
+	//image viewer element
+	var eleViewDiv = document.querySelector("#imgviewer");
+	var eleViewImage  = document.querySelector("#imgviewer > img");
+	
+	//dimmed 
+	var clientWidth = document.body.clientWidth;
+	var clientHeight = document.body.clientHeight;
+	
+	var dl = document.getElementById('dimmedLayer');
+	
+	//show Dimmed layer
+	setCss(dl, {
+		width 					: clientWidth+"px",
+		height 					: clientHeight+"px",
+		opacity 					: 0.8,
+		backgroundColor 	: "darkgray",
+		zIndex 					: 100,
+		display					: "block"
+	});
+	
+	//remove Dimmed layer registration
+	dl.addEventListener('click' ,function(e){
+		setCss(dl, {
+			width 					: 0+"px",
+			height 					: 0+"px",
+			opacity 					: 0,
+			zIndex 					: 1,
+			display					: "none"
+		});
+		var style = window.getComputedStyle(eleViewDiv, null);
+		var displayValue = style.display;
+		
+		//toggle image viewer display
+		if(displayValue == "block")  {
+			setCss(eleViewDiv, {display : "none"});
+			//prevent Scroll Event
+			window.removeEventListener('mousewheel', wheelHandler , false);
+		}
+	} ,false);
+	
+	//image viewer
+	var eleViewDiv = document.querySelector("#imgviewer");
+	var eleViewImage  = document.querySelector("#imgviewer > img");
+	
+	//var clientWidth = document.body.clientWidth;
+	var ele = e.target;
+	var imgWidth  = ele.naturalWidth;  //원래 이미지.
+	
+	if(clientWidth <= imgWidth) imgWidth = 1200;   //화면보다 큰 이미지라면 최대값 지정.(이미지 뷰어의 max width) 
+	leftMargin = (clientWidth-imgWidth) / 2; //와우 간격을 동일하게 맞추는 계산. 
+	
+	eleViewDiv.style.marginLeft = leftMargin +"px";
+	eleViewDiv.style.top = document.body.scrollTop +100 + "px";    //100은 상단에서 어느정도 떨어뜨리기 위해서. 
+	eleViewImage.src = ele.src;
+	setCss(eleViewDiv, {display : "block"});
+	
+	//prevent Scroll Event
+	window.addEventListener('mousewheel', wheelHandler, false);
+}
+
+function setCss(element,o) {
+	for (v in o) {
+		element.style[v] = o[v];
+	}
+}
+
+function wheelHandler (e) {
+		e.preventDefault();
+}
+
 
 function createComments() {
 	var data = new FormData();

@@ -14,8 +14,11 @@
 </header>
 	<div id="formArea">
 		<form action="/board" method="post" enctype="multipart/form-data">
+			
 			 제목  <input type="text" name="title" size=40> <br />
-			<textarea name="contents" rows="10" cols="50"></textarea><br />
+			<div id="textareawrap">
+				<textarea name="contents" rows="10" cols="50"></textarea><br />
+			</div>
 			<input type="file" name="filename"> <br />
 			<input type="submit" value="전송합니다">
 			<input type="reset" value="지웁니다">
