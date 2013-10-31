@@ -24,5 +24,21 @@
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:prefix="/" p:suffix=".jsp" />
+		p:order="2" p:prefix="/" p:suffix=".jsp" />
+
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver"
+		p:order="1">
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+
+		<property name="defaultViews">
+			<list>
+				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+			</list>
+		</property>
+		<property name="ignoreAcceptHeader" value="true" />
+	</bean>
 </beans>

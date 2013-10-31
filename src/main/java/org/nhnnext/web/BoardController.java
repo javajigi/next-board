@@ -3,9 +3,10 @@ package org.nhnnext.web;
 import java.util.Collections;
 import java.util.List;
 
-import org.nhnnext.web.Board;
 import org.nhnnext.repository.BoardRepository;
 import org.nhnnext.support.FileUploader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,14 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class BoardController {
+	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
+	
 	@Autowired
 	private BoardRepository boardRepository;
 	
-	@RequestMapping(value={"/", "/board"})
+	@RequestMapping(value={"", "/", "/board"})
 	public String list(Model model) {
-		//model.addAttribute("boards", boardRepository.findAll());
     	List<Board> savedBoard = (List<Board>) boardRepository.findAll();
-    	// 역순으로 보여주기 위해서. 
     	Collections.reverse(savedBoard);
     	model.addAttribute("boards", savedBoard);
 		return "list";
@@ -36,11 +37,12 @@ public class BoardController {
 	
 	@RequestMapping(value="/board", method=RequestMethod.POST)
 	public String create(Board board, MultipartFile filename) {
+		log.debug("board : {}", board);
+		
 		String fileName = FileUploader.upload(filename);
 		board.setFileName(fileName);
 		Board savedBoard = boardRepository.save(board);
-		//return "redirect:/board/" + savedBoard.getId();
-		return "redirect:/board/";
+		return "redirect:/board/" + savedBoard.getId();
 	}
 	
 	@RequestMapping("/board/{id}")
