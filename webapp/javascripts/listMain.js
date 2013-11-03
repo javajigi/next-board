@@ -36,9 +36,9 @@ function writeComments(e) {
 	 e.preventDefault();
 	 
 	 var eleForm = e.currentTarget.form;  //form element
-	 var eleCommentList = eleForm.parentNode.previousElementSibling;   //list element
 	 var sID = eleForm[0].value;              //hidden type element
 	 var oFormData = new FormData(eleForm);
+	 
 	 var request = new XMLHttpRequest();
 	 var url = "/board/" +sID + "/comments.json";
 	  
@@ -48,6 +48,7 @@ function writeComments(e) {
          if(request.readyState ==4 && request.status ==200) {
                  var obj = JSON.parse(request.responseText);
                  //append HTML
+                 var eleCommentList = eleForm.parentNode.previousElementSibling;   //list element
                  eleCommentList.insertAdjacentHTML("beforeend" , "<p><span>"+ obj.contents +"</span></p>" );
          }
      };
