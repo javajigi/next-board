@@ -41,8 +41,8 @@ public class BoardController {
 		
 		String fileName = FileUploader.upload(filename);
 		board.setFileName(fileName);
-		Board savedBoard = boardRepository.save(board);
-		return "redirect:/board/" + savedBoard.getId();
+		boardRepository.save(board);
+		return "redirect:/";
 	}
 	
 	@RequestMapping("/board/{id}")

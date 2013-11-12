@@ -12,11 +12,17 @@
 
 <body>
 <div id="wrap">
- 	<nav>
-	 	<!--  ul>
-		 	<li><a href="/board">list</a></li>
-		 	<li><a href="/board/form">write</a></li>
-	 	</ul -->
+ 	 <nav>
+	 	<ul>
+	 		<c:choose>
+	 		<c:when test="${empty sessionScope.userId}">
+	 		<li><a href="/login/form">로그인</a></li>
+	 		</c:when>
+	 		<c:otherwise>
+	 		<li>${sessionScope.userId}님 환영합니다.</li>
+	 		</c:otherwise>
+	 		</c:choose>
+	 	</ul>
 	 </nav>
 	 
 	 <section id="writePost">

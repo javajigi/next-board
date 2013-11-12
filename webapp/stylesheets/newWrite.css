@@ -39,6 +39,10 @@ div#formArea {
 	height : 30px;
 }
 
+#formArea input[type=password] {
+	height : 30px;
+}
+
 #formArea input[type=submit] , input[type=reset]  {
 	margin-top : 20px;
 	border : 0px;
